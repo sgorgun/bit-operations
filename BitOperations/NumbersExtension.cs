@@ -26,7 +26,36 @@ namespace BitOperationsTask
         /// </example>
         public static int InsertNumberIntoAnother(int destinationNumber, int sourceNumber, int i, int j)
         {
-            throw new NotImplementedException("You need to implement this function.");
+            if (j < 0 || j > 31)
+            {
+                throw new ArgumentOutOfRangeException(nameof(j), $"{nameof(i)} is less than 0 or more than 31.");
+            }
+
+            if (i < 0 || i > 31)
+            {
+                throw new ArgumentOutOfRangeException(nameof(j), $"{nameof(i)} is less than 0 or more than 31.");
+            }
+
+            if (j < i)
+            {
+                throw new ArgumentException($"{nameof(i)} is more than {nameof(i)}.", nameof(j));
+            }
+
+            int n = j - i + 1;
+
+            int mask = 0;
+            for (int m = 0; m < n; m++)
+            {
+                mask = (mask << 1) | 1;
+            }
+
+            // int mask = (1 << n) - 1; action is similar to the cycle, but the values of 31 are not triggered
+            int digitOne = sourceNumber & mask;
+            digitOne <<= i;
+            mask <<= i;
+            mask = ~mask;
+            int digitTwo = destinationNumber & mask;
+            return digitTwo | digitOne;
         }
     }
 }
